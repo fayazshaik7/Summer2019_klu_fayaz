@@ -1,0 +1,17 @@
+﻿Build started 08-06-2019 19:00:01.
+     1>Project "C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel1\excel1\excel1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\excel1.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt AggrFunctions.cpp
+         AggrFunctions.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel1\Debug\excel1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel1\Debug\excel1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel1\Debug\excel1.lib" /MACHINE:X86 Debug\AggrFunctions.obj
+         Debug\excel1.obj
+         Debug\IMPORT_EXPORT.obj
+         Debug\SET_fun.obj
+         Debug\stdafx.obj
+         excel1.vcxproj -> C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel1\Debug\excel1.exe
+     1>Done Building Project "C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel1\excel1\excel1.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.48

@@ -1,0 +1,452 @@
+// excel.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <stdlib.h>
+#include <string.h>
+#define MAX_EXPRESSIONS 10
+#define SHEET_SIZE 10
+void inputDecode(struct cell **sheet, char *cmd, char *activeFile);
+struct tree{
+	int value;
+	char operation;
+	struct tree *left;
+	struct tree *right;
+};
+struct cell{
+	struct tree *formula;
+	char *strFormula;
+};
+
+
+struct stack{
+	int top;
+	struct tree *stk[MAX_EXPRESSIONS];
+};
+
+
+struct cell **createSheet(){
+	struct cell **sheet;
+	sheet = (struct cell **)malloc(sizeof(struct cell *)*SHEET_SIZE);
+	for (int iter = 0; iter < SHEET_SIZE; iter++)
+		sheet[iter] = (struct cell *)malloc(sizeof(struct cell)*SHEET_SIZE);
+	for (int row = 0; row < SHEET_SIZE; row++)
+		for (int col = 0; col < SHEET_SIZE; col++){
+			sheet[row][col].formula = (struct tree *)malloc(sizeof(struct tree));
+			sheet[row][col].formula->value = 0;
+			sheet[row][col].formula->operation = '0';
+			sheet[row][col].formula->left = NULL;
+			sheet[row][col].formula->right = NULL;
+			sheet[row][col].strFormula = (char *)malloc(sizeof(char) * 100);
+			strcpy(sheet[row][col].strFormula, "-");
+		}
+	return sheet;
+}
+
+char *toUpper(char *a){
+	for (int iter = 0; a[iter]; iter++){
+		if (a[iter] >= 'a'&&a[iter] <= 'z'){
+			a[iter] = a[iter] - 32;
+		}
+	}
+	return a;
+}
+
+int strLength(char *a){
+	int iter;
+	for (iter = 0; a[iter]; iter++);
+	return iter;
+}
+
+int strCompare(char *a, char *b){
+	if (strLength(a) != strLength(b))
+		return 0;
+	for (int iter = 0; a[iter] && b[iter]; iter++){
+		if (a[iter] != b[iter])
+			return 0;
+	}
+	return 1;
+}
+
+
+int getOperation(char *token){
+	if (strCompare(toUpper(token), "GET\0"))
+		return 1;
+	if (strCompare(toUpper(token), "SET\0"))
+		return 2;
+	if (strCompare(toUpper(token), "PRINT\0"))
+		return 3;
+	if (strCompare(toUpper(token), "IMPORT\0"))
+		return 4;
+	if (strCompare(toUpper(token), "EXPORT\0"))
+		return 5;
+	if (strCompare(toUpper(token), "SAVE\0"))
+		return 6;
+	return -1;
+}
+
+int getCol(char ch){
+	if (ch >= 'a'&&ch <= 'z')
+		return ch - 'a';
+	return ch - 'A';
+}
+
+int getRow(char ch){
+	return ch - '1';
+}
+
+int calculate(char ch, int a, int b){
+	if (ch == '+')
+		return a + b;
+	if (ch == '-')
+		return a - b;
+	if (ch == '*')
+		return a * b;
+	if (ch == '/')
+		return a / b;
+	return -1;
+}
+
+int evaluateTree(struct tree *root){
+	if (root->operation == '0')
+		return root->value;
+	int left = 0, right = 0;
+	left = root->left->value;
+	right = root->right->value;
+	return calculate(root->operation, left, right);
+}
+
+void GET(struct cell **sheet, int iter, char *cmd){
+	int iter1;
+	int row, col;
+	for (iter1 = iter; cmd[iter1]; iter1++){
+		if (cmd[iter1] == ' ')
+			continue;
+		else
+			col = getCol(cmd[iter1]);
+		break;
+	}
+	if (cmd[iter1 + 2] != '0')
+		row = getRow(cmd[iter1+1]);
+	else
+		row = 9;
+	int val = evaluateTree(sheet[row][col].formula);
+	printf("%d\n", val);
+
+}
+
+struct tree *createTreeNode1(char ch){
+	struct tree *curr;
+	curr = (struct tree *)malloc(sizeof(struct tree));
+	curr->value = 0;
+	curr->operation = ch;
+	curr->right = NULL;
+	curr->left = NULL;
+	return curr;
+}
+struct tree *createTreeNode2(int val){
+	struct tree *curr;
+	curr = (struct tree *)malloc(sizeof(struct tree));
+	curr->value = val;
+	curr->operation = '0';
+	curr->right = NULL;
+	curr->left = NULL;
+	return curr;
+}
+
+struct tree *buildFormula(struct cell **sheet,int iter,char *cmd,int x,int y){
+	
+	struct tree *root = NULL;
+	int i;
+	char *e1, *e2;
+	int index_e1 = 0, index_e2 = 0;
+	int value_e1 = 0, value_e2 = 0;
+	int row=-1, col=-1;
+	e1 = (char *)malloc(sizeof(char) * 5);
+	e2 = (char *)malloc(sizeof(char) * 5);
+	for (i = iter; cmd[i]; i++){
+		if (cmd[i] == '+' || cmd[i] == '-' || cmd[i] == '*' || cmd[i] == '/'){
+			sheet[x][y].formula->operation = cmd[i];
+			sheet[x][y].formula->value = 0;
+			root = sheet[x][y].formula;
+			break;
+		}
+		e1[index_e1++] = cmd[i];
+	}
+	e1[index_e1] = '\0';
+	if (e1[0] >= '0'&&e1[0] <= '9'){
+		for (int j = 0; e1[j]; j++)
+			value_e1 = (value_e1 * 10) + (e1[j] - '0');
+	}
+	else{
+		col = e1[0] - 'A';
+		if (strLength(e1) == 3)
+			row = 9;
+		else
+			row = e1[1] - '1';
+	}
+
+	if (row == -1 && col == -1 && root == NULL){
+		sheet[x][y].formula->value = value_e1;
+		sheet[x][y].formula->operation = '0';
+		free(sheet[x][y].formula->left);
+		free(sheet[x][y].formula->right);
+		return sheet[x][y].formula;;
+
+	}
+	strcpy(sheet[x][y].strFormula, cmd);
+	if (root == NULL)
+		return sheet[row][col].formula;
+
+	//printf("Hello");
+
+	if (row == -1 && col == -1)
+		root->left = createTreeNode2(value_e1);
+	else
+		root->left = sheet[row][col].formula;
+
+	for (int j = i+1; cmd[j]; j++)
+		e2[index_e2++] = cmd[j];
+	e2[index_e2] = '\0';
+
+
+	row = -1;
+	col = -1;
+
+	if (e2[0] >= '0'&&e2[0] <= '9'){
+		for (int j = 0; e2[j]; j++)
+			value_e2 = (value_e2 * 10) + (e2[j] - '0');
+	}
+	else{
+		col = e2[0] - 'A';
+		if (strLength(e2) == 3)
+			row = 9;
+		else
+			row = e2[1] - '1';
+	}
+
+	if (row == -1 && col == -1)
+		root->right = createTreeNode2(value_e2);
+	else
+		root->right = sheet[row][col].formula;
+
+	
+	return root;
+
+}
+
+
+void SET(struct cell **sheet, int iter, char *cmd){
+	int iter1;
+	int row, col;
+	for (iter1 = iter; cmd[iter1]; iter1++){
+		if (cmd[iter1] == ' ')
+			continue;
+		else
+			col = getCol(cmd[iter1]);
+		break;
+	}
+	if (cmd[iter1 + 2] != '0')
+		row = getRow(cmd[iter1 + 1]);
+	else
+		row = 9;
+	sheet[row][col].formula = buildFormula(sheet, iter1 + 3, cmd,row,col);
+	//printf("%d %d %d\n",row,col, sheet[row][col].formula->value);
+	return;
+		
+}
+
+void PRINT(struct cell **sheet){
+	printf("\t\t\t***Sheet***\n");
+	printf("\n+");
+	for (int line = 1; line < SHEET_SIZE * 6 + 6; line++){
+			printf("-");
+	}
+	printf("+\n|");
+	printf("%*c|", 5, ' ');
+	for (int col = 0; col < SHEET_SIZE; col++){
+		printf("%*c|", 5, 'A'+col);
+	}
+	printf("\n|");
+	for (int line = 1; line < SHEET_SIZE * 6 + 6; line++){
+		if (line % 6 == 0)
+			printf("+");
+		else
+			printf("-");
+	}
+	printf("|\n");
+	for (int row = 0; row < SHEET_SIZE; row++){
+		printf("|");
+		printf("%*d|", 5, row+1);
+		for (int col = 0; col < SHEET_SIZE; col++){
+			int val = evaluateTree(sheet[row][col].formula);
+			printf("%*d|", 5, val);
+		}
+		if (row != SHEET_SIZE - 1)
+			printf("\n|");
+		else
+			printf("\n+");
+		for (int line = 1; line < SHEET_SIZE * 6 + 6; line++){
+			if (line % 6 == 0 && row!=SHEET_SIZE-1)
+				printf("+");
+			else
+				printf("-");
+		}
+		if (row != SHEET_SIZE - 1)
+			printf("|\n");
+		else
+			printf("+\n");
+	}
+}
+
+char *IMPORT(struct cell **sheet, int iter, char *cmd,char *fle){
+
+	int fileIndex = 0;
+	int extension = 0;
+	for (int iter1 = iter; cmd[iter1]; iter1++){
+		if (cmd[iter1] == ' ')
+			continue;
+		fle[fileIndex++] = cmd[iter1];
+		if (cmd[iter1] == '.')
+			extension = 1;
+	}
+	if (extension == 0){
+		fle[fileIndex++] = '.';
+		fle[fileIndex++] = 'c';
+		fle[fileIndex++] = 's';
+		fle[fileIndex++] = 'v';
+	}
+	char ch;
+	fle[fileIndex] = '\0';
+	FILE *fptr;
+	fptr = fopen(fle, "r");
+	for (int row = 0; row < SHEET_SIZE; row++){
+		for (int col = 0; col < SHEET_SIZE; col++){
+			int val;
+			char *str;
+			str = (char *)malloc(sizeof(char) * 100);
+			fscanf(fptr, "%d", &val);
+			sheet[row][col].formula->value = val;
+			fscanf(fptr, "%c", &ch);
+			fscanf(fptr, "%[^\n]s", str);
+
+			inputDecode(sheet, str,fle);
+
+		}
+		
+	}
+	fclose(fptr);
+	return fle;
+}
+
+void EXPORT(struct cell **sheet, int iter, char *cmd){
+	char *fle;
+	fle = (char *)malloc(20);
+	int fileIndex = 0;
+	int extension = 0;
+	for (int iter1 = iter; cmd[iter1]; iter1++){
+		if (cmd[iter1] == ' ')
+			continue;
+		fle[fileIndex++] = cmd[iter1];
+		if (cmd[iter1] == '.')
+			extension = 1;
+	}
+	if (extension == 0){
+		fle[fileIndex++] = '.';
+		fle[fileIndex++] = 'c';
+		fle[fileIndex++] = 's';
+		fle[fileIndex++] = 'v';
+	}
+	fle[fileIndex] = '\0';
+	FILE *fptr;
+	fptr = fopen(fle, "w");
+	for (int row = 0; row < SHEET_SIZE; row++){
+		for (int col = 0; col < SHEET_SIZE; col++){
+			int val = evaluateTree(sheet[row][col].formula);
+			fprintf(fptr, "%d", val);
+			fprintf(fptr, " %s", sheet[row][col].strFormula);
+			fprintf(fptr, "\n");
+		}
+	}
+	fclose(fptr);
+}
+
+void SAVE(struct cell **sheet, char *activeFile){
+	if (strlen(activeFile) <= 1){
+		printf("Enter file name to save : ");
+		scanf("%s", activeFile);
+	}
+	char ch;
+	FILE *fptr;
+	fptr = fopen(activeFile, "w");
+	for (int row = 0; row < SHEET_SIZE; row++){
+		for (int col = 0; col < SHEET_SIZE; col++){
+			int val = evaluateTree(sheet[row][col].formula);
+			fprintf(fptr, "%d", val);
+			fprintf(fptr, " %s", sheet[row][col].strFormula);
+			fprintf(fptr, "\n");
+		}
+	}
+	fclose(fptr);
+}
+
+void inputDecode(struct cell **sheet, char *cmd,char *activeFile){
+	
+	char *token = (char *)malloc(7);
+	int tokenIndex = 0;
+	int operation = -1;
+	int iter;
+	for (iter = 0; cmd[iter]; iter++){
+		if (cmd[iter] == ' '){
+			break;
+		}
+		token[tokenIndex++] = cmd[iter];
+	}
+	token[tokenIndex] = '\0';
+	operation = getOperation(token);
+	if (operation == 1)
+		GET(sheet, iter, cmd);
+	else if (operation == 2)
+		SET(sheet, iter, cmd);
+	else if (operation == 3)
+		PRINT(sheet);
+	else if (operation == 4){
+		IMPORT(sheet, iter, cmd,activeFile);
+	}
+	else if (operation == 5)
+		EXPORT(sheet, iter, cmd);
+	else if (operation == 6)
+		SAVE(sheet, activeFile);
+	else if (cmd[0]!='-'&&(strLength(cmd)!=0))
+		printf("Invalid Command\n");
+	
+
+}
+
+
+void userInterface(){
+
+	struct cell **sheet = createSheet();
+	char *cmd = (char *)malloc(100);
+	char *activeFile;
+	activeFile = (char *)malloc(20);
+	strcpy(activeFile, "\0");
+ 	while(1){
+		printf("> ");
+		gets(cmd);
+		inputDecode(sheet, cmd,activeFile);
+	}
+
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	userInterface();
+	return 0;
+}
+
+/*for (int i = 0; i < SHEET_SIZE; i++){
+		for (int j = 0; j < SHEET_SIZE; j++)
+			printf("%d", sheet[i][j]);
+		printf("\n");
+		}*/

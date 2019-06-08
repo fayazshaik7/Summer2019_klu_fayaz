@@ -1,0 +1,32 @@
+﻿Build started 08-06-2019 18:57:45.
+     1>Project "C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel\excel\excel.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\excel.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\excel.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt excel.cpp formulaEval.cpp stringMethods.cpp
+         stringMethods.cpp
+         formulaEval.cpp
+         excel.cpp
+         Generating Code...
+     1>c:\users\shaik fayaz\documents\visual studio 2013\projects\excel\excel\excel.cpp(475): warning C4715: 'changeDependencies' : not all control paths return a value
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel\Debug\excel.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel\Debug\excel.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel\Debug\excel.lib" /MACHINE:X86 Debug\excel.obj
+         Debug\formulaEval.obj
+         Debug\stdafx.obj
+         Debug\stringMethods.obj
+     1>formulaEval.obj : error LNK2005: "void __cdecl PRINT(struct cell * *)" (?PRINT@@YAXPAPAUcell@@@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "int __cdecl calculate(char,int,int)" (?calculate@@YAHDHH@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "struct cell * * __cdecl createSheet(void)" (?createSheet@@YAPAPAUcell@@XZ) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "int __cdecl evaluateTree(struct tree *)" (?evaluateTree@@YAHPAUtree@@@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "int __cdecl getOperation(char *)" (?getOperation@@YAHPAD@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "void __cdecl inputDecode(struct cell * *,char *,char *)" (?inputDecode@@YAXPAPAUcell@@PAD1@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "int __cdecl strCompare(char *,char *)" (?strCompare@@YAHPAD0@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "int __cdecl strLength(char *)" (?strLength@@YAHPAD@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "char * __cdecl toUpper(char *)" (?toUpper@@YAPADPAD@Z) already defined in excel.obj
+     1>formulaEval.obj : error LNK2005: "void __cdecl userInterface(void)" (?userInterface@@YAXXZ) already defined in excel.obj
+     1>C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel\Debug\excel.exe : fatal error LNK1169: one or more multiply defined symbols found
+     1>Done Building Project "C:\Users\SHAIK FAYAZ\Documents\Visual Studio 2013\Projects\excel\excel\excel.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:07.61

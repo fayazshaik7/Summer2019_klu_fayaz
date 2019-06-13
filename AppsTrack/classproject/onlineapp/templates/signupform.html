@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+    <style>
+        .stat{
+            width : 200px;
+        }
+    </style>
+</head>
+<body><form method="POST">
+        {% csrf_token  %}
+        {{form.as_p}}
+         <input type="submit" class="select" value="Signup">
+    </form>
+    <form action="http://127.0.0.1:8000/login/">
+        <input type="submit" class="select log" value="Login">
+    </form>
+
+
+
+</body>
+</html>

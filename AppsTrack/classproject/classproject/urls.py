@@ -15,20 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-urlpatterns = [
-
-]
-
+from onlineapp import views
 from django.conf import settings
 from django.conf.urls import include, url  # For django versions before 2.0
 from django.urls import include, path  # For django versions from 2.0 and up
+from django.urls import re_path
+from onlineapp import urls
+urlpatterns = [
+    path(r'admin/', admin.site.urls),
+    path(r'hello/', views.hello_world),
+
+] + urls.urlpatterns
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        path('admin/', admin.site.urls),
-        path('__debug__/', include(debug_toolbar.urls)),
+
+        path(r'__debug__/', include(debug_toolbar.urls)),
+
 
         # For django versions before 2.0:
         # url(r'^__debug__/', include(debug_toolbar.urls)),

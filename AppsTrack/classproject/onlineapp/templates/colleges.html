@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+    <style>
+        .button{
+            float : right;
+        }
+
+    </style>
+</head>
+<body>
+    <form action="http://127.0.0.1:8000/logout/">
+         <input class="select button" type="submit" value="Logout">
+     </form>
+    <h1>College names</h1>
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    {% for i in jails %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td><a href="http://127.0.0.1:8000/colleges/{{i.id}}">{{i.name}}</a></td>
+            <td>{{i.acronym}}</td>
+            <td><a href="http://127.0.0.1:8000/colleges/{{i.id}}/edit"><input type="submit" value="edit"></a></td>
+            <td>
+                <form method="POST" action="http://127.0.0.1:8000/colleges/{{i.id}}/delete">
+                {% csrf_token  %}
+                <a href=""><input type="submit" value="Delete"></a>
+            </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

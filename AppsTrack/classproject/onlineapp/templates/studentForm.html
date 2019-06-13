@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>student form</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token  %}
+        {{form.as_p}}
+        {{form1.as_p}}
+         <input type="submit" class="select" value="Save">
+    </form>
+
+</body>
+</html>

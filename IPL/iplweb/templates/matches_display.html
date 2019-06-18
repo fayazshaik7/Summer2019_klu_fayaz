@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matches</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+    <script>
+
+        function display(){
+            var e = document.getElementById("opt").value;
+            window.alert(e+"hello");
+        }
+
+    </script>
+    <style>
+        .tab{
+            width = 50%;
+        }
+
+    </style>
+</head>
+<body>
+<form action="http://127.0.0.1:8000/logout/">
+    <p>User : {{request.user.username}}</p>
+         <input class="select button" type="submit" value="Logout">
+     </form>
+    <div>
+        <p>Select Season</p>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2008/">2008</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2009/">2009</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2010/">2010</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2011/">2011</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2012/">2012</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2013/">2013</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2014/">2014</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2015/">2015</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2016/">2016</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2017/">2017</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2018/">2018</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/matches/2019/">2019</a></button>
+    </div>
+
+    <a href=""><button class="button" style="background-color : #fffb89;">Previous Page</button></a>
+    <a href="http://127.0.0.1:8000/pointsTable/{{season}}/"><button class="button" style="background-color : #fffb89; align-text : center;">Points table</button></a>
+    <a href="http://127.0.0.1:8000/TeamStats/Mumbai Indians/2019"><button class="button" style="background-color : #fffb89;">Team Page</button></a>
+    <a href=""><button class="button" style="float : right; background-color : #fffb89;">Next Page</button></a>
+
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth tab">
+        <tr>
+            <th>Season</th>
+            <th>Team1</th>
+            <th>Team2</th>
+            <th>Venue</th>
+            <th>Toss_winner</th>
+            <th>Toss_decision</th>
+            <th>Winner</th>
+            <th>Player of the match</th>
+        </tr>
+        {% for i in match %}
+            <tr>
+                <td>{{i.season}}</td>
+                <td>{{i.team1}}</td>
+                <td>{{i.team2}}</td>
+                <td>{{i.venue}}</td>
+                <td>{{i.toss_winner}}</td>
+                <td>{{i.toss_decision}}</td>
+                <td>{{i.winner}}</td>
+                <td>{{i.player_of_the_match}}</td>
+                <td><a href="http://127.0.0.1:8000/match_report/{{i.match_id}}/"><button class="button">View match</button></a></td>
+
+
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if match.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ match.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ match.number }} of {{ match.paginator.num_pages }}.
+        </span>
+
+        {% if match.has_next %}
+            <a href="?page={{ match.next_page_number }}">next</a>
+            <a href="?page={{ match.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+</body>
+</html>

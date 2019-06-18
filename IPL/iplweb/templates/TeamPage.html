@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+</head>
+<body>
+
+    <div>
+        <p>Select Team</p>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Chennai Super Kings/2019/">CSK</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Delhi Daredevils/2019/">DD</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Delhi Capitals/2019/">DC</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Mumbai Indians/2019/">MI</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Gujarat Lions/2019/">GL</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Rising Pune Supergaint/2019/">RPS</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Pune Warriors India/2019/">PWI</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Royal Challengers Bangalore/2019/">RCB</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Kolkata Knight Riders/2019/">KKR</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Deccan Chargers/2019/">DCH</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Sunrisers Hyderabad/2019/">SRH</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Kochi Tuskers Kerala/2019/">KTK</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/Kings XI Punjab/2019/">KXIP</a></button>
+    </div>
+
+    <div>
+        <p>Select Season</p>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2008/">2008</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2009/">2009</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2010/">2010</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2011/">2011</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2012/">2012</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2013/">2013</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2014/">2014</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2015/">2015</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2016/">2016</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2017/">2017</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2018/">2018</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/TeamStats/{{team}}/2019/">2019</a></button>
+    </div>
+
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth tab">
+        <tr>
+            <th>Season</th>
+            <th>Team1</th>
+            <th>Team2</th>
+            <th>Venue</th>
+            <th>Toss_winner</th>
+            <th>Toss_decision</th>
+            <th>Winner</th>
+            <th>Player of the match</th>
+        </tr>
+        {% for i in stats %}
+            <tr>
+                <td>{{i.season}}</td>
+                <td>{{i.team1}}</td>
+                <td>{{i.team2}}</td>
+                <td>{{i.venue}}</td>
+                <td>{{i.toss_winner}}</td>
+                <td>{{i.toss_decision}}</td>
+                <td>{{i.winner}}</td>
+                <td>{{i.player_of_the_match}}</td>
+                <td><a href="http://127.0.0.1:8000/match_report/{{i.match_id}}/"><button class="button">View match</button></a></td>
+
+
+            </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>

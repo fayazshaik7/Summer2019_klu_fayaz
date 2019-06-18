@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Summary</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+    <style>
+        .mat{
+            text-align : center;
+            font-size : 30px;
+            color : Blue;
+        }
+        img{
+            height:50px;
+            width : 50px;
+        }
+        div{
+            text-align : center;
+            color : red;
+        }
+        .win{
+           text-align : center;
+            font-size : 30px;
+            color : green;
+        }
+        .mom{
+            text-align : center;
+            font-size : 30px;
+            color : yellow;
+        }
+        .tb{
+           float : left;
+           margin-left : 100px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <form action="http://127.0.0.1:8000/logout/">
+        <p>User : {{request.user.username}}</p>
+         <input class="select button" type="submit" value="Logout">
+     </form>
+    <div>
+        {% load static %}
+        <h2 class="mat"><img src="/static/logos/{{match.team1}}.png"> {{match.team1}} Vs {{match.team2}} <img src="/static/logos/{{match.team2}}.png"></h2>
+    </div>
+    <div>
+        {{match.toss_winner}} won the toss and choose to {{match.toss_decision}} first
+    </div>
+
+    <div class = "win">
+        {% if match.winner == match.toss_winner %}
+            {% if match.toss_decision == "field" %}
+                <h2>{{match.winner}} won by {{match.win_by_wickets}} wickets</h2>
+            {% endif %}
+            {% if match.toss_decision == "bat" %}
+                <h2>{{match.winner}} won by {{match.win_by_runs}} runs</h2>
+            {% endif %}
+        {% endif %}
+        {% if match.winner != match.toss_winner %}
+            {% if match.toss_decision != "field" %}
+                <h2>{{match.winner}} won by {{match.win_by_wickets}} wickets</h2>
+            {% endif %}
+            {% if match.toss_decision != "bat" %}
+                <h2>{{match.winner}} won by {{match.win_by_runs}} runs</h2>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div>
+        <h2 class="mom">Man of the match : {{match.player_of_the_match}}</h2>
+    </div>
+
+    <span><table class="table tb" >
+        <caption><bold>Top Scorers</bold></caption>
+        <tr>
+            <th>Player</th>
+            <th>Runs</th>
+        </tr>
+        {% for i in top_scorers %}
+            <tr>
+                <td>{{i.batsman}}</td>
+                <td>{{i.score}}</td>
+            </tr>
+        {%endfor%}
+    </table></span>
+
+    <span><table class="table tb">
+        <caption><bold>Top Bowlers</bold></caption>
+        <tr>
+            <th>Player</th>
+            <th>Wickets</th>
+        </tr>
+        {% for i in top_bowlers %}
+            <tr>
+                <td>{{i.bowler}}</td>
+                <td>{{i.ct}}</td>
+            </tr>
+        {%endfor%}
+    </table></span>
+
+    <span><table class="table tb">
+        <caption><bold>Extras Inning1</bold></caption>
+        <tr>
+            <td>Wide</td>
+            <td>{{extras.wd}}</td>
+        </tr>
+        <tr>
+            <td>Byes</td>
+            <td>{{extras.bye}}</td>
+        </tr>
+        <tr>
+            <td>LegByes</td>
+            <td>{{extras.lb}}</td>
+        </tr>
+        <tr>
+            <td>Noball</td>
+            <td>{{extras.nb}}</td>
+        </tr>
+        <tr>
+            <td>Penality</td>
+            <td>{{extras.pn}}</td>
+        </tr>
+    </table></span>
+
+    <span><table class="table tb">
+        <caption><bold>Extras Inning2</bold></caption>
+        <tr>
+            <td>Wide</td>
+            <td>{{extras2.wd}}</td>
+        </tr>
+        <tr>
+            <td>Byes</td>
+            <td>{{extras2.bye}}</td>
+        </tr>
+        <tr>
+            <td>LegByes</td>
+            <td>{{extras2.lb}}</td>
+        </tr>
+        <tr>
+            <td>Noball</td>
+            <td>{{extras2.nb}}</td>
+        </tr>
+        <tr>
+            <td>Penality</td>
+            <td>{{extras2.pn}}</td>
+        </tr>
+    </table></span>
+
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth tab">
+        <tr>
+            <th>Over</th>
+            <th>Ball</th>
+            <th>Batsman</th>
+            <th>Bowler</th>
+            <th>Runs</th>
+        </tr>
+        {% for i in summary %}
+            <tr>
+                <td>{{i.over}}</td>
+                <td>{{i.ball}}</td>
+                <td>{{i.batsman}}</td>
+                <td>{{i.bowler}}</td>
+                <td>{{i.total_runs}}</td>
+
+            </tr>
+        {%endfor%}
+    </table>
+
+</body>
+</html>

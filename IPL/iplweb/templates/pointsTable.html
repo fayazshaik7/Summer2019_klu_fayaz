@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Points Table</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+</head>
+<body>
+
+    <div>
+        <p>Select Season</p>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2008/">2008</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2009/">2009</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2010/">2010</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2011/">2011</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2012/">2012</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2013/">2013</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2014/">2014</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2015/">2015</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2016/">2016</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2017/">2017</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2018/">2018</a></button>
+        <button class="button"><a href="http://127.0.0.1:8000/pointsTable/2019/">2019</a></button>
+    </div>
+
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth tab">
+        <tr>
+            <th>Team</th>
+            <th>Points</th>
+        </tr>
+        {% for i in points %}
+            <tr>
+                <td>{{i.winner}}</td>
+                <td>{{i.winner__count}}</td>
+            </tr>
+        {%endfor%}
+    </table>
+
+</body>
+</html>

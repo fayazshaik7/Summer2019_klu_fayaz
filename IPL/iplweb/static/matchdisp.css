@@ -1,0 +1,73 @@
+        .tab{
+            width = 50%;
+        }
+
+        .card{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            margin: auto;
+            font-family: arial;
+            margin-bottom : 10px;
+            padding : 10px;
+        }
+        .team{
+            background-image: url('/static/logos/tLogo58x-sprite.png');
+            background-repeat: no-repeat;
+            border : 1px solid white;
+            width: 59px;
+            height: 58px;
+        }
+        .Mumbai{
+            background-position : -126px -126px;
+        }
+        .Bangalore{
+            background-position: -189px -63px;
+        }
+        .Rajasthan{
+            background-position: 0px -189px;
+        }
+        .Rising{
+
+        }
+        .Delhi{
+            background-position: -189px 0px;
+        }
+        .Kolkata{
+            background-position: -252px -63px;
+        }
+        .Punjab{
+            background-position: -63px -126px;
+        }
+        .Hyderabad{
+            background-position: -126px -189px;
+        }
+
+        .Chennai{
+            background-position: -63px 0px;
+        }
+        .vs{
+            text-align : 0px;
+        }
+        *{
+            box-sizing: border-box;
+        }
+        .vl{
+            width:1px;
+            background-color:#b5b8bc;
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:100px;
+            margin-top : 2%;
+            margin-bottom : 2%;
+            margin-bottom : 2%;
+       }
+       .tmlogos{
+        max-width : 100px;
+       }
+       .res{
+            position:absolute;
+            top:30px;
+            bottom:10px;
+            left:110px;
+       }

@@ -2,7 +2,6 @@ from .views import *
 from django.urls import path
 urlpatterns = [
     path(r'',home),
-    path(r'tm/',teams),
     path('matches/',Matches_view.as_view(),name = "listsView"),
     path('matches/<int:year>/',Matches_view.as_view(),name = "listsView1"),
     path('match_report/<int:mid>/',Deliveries_view.as_view(),name = "matchsummary"),

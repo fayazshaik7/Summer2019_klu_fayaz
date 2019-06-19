@@ -60,4 +60,4 @@ def add_deliveries_data():
         c.save()
     fp.close()
 #add_matches_data()
-add_deliveries_data()
+# add_deliveries_data()

@@ -19,6 +19,18 @@ class Matches_view(View):
         paginator = Paginator(c, 8)
         page = request.GET.get('page')
         c = paginator.get_page(page)
+        res = dict()
+        for i in c:
+            c6 = Deliveries.objects.filter(del_id_id=i.match_id, inning=1).aggregate(Sum('total_runs'))
+            c7 = Deliveries.objects.filter(del_id_id=i.match_id, inning=2).aggregate(Sum('total_runs'))
+            c8 = Deliveries.objects.filter(del_id_id=i.match_id, inning=1).exclude(player_dismissed='').aggregate(
+                Count('player_dismissed'))
+            c9 = Deliveries.objects.filter(del_id_id=i.match_id, inning=2).exclude(player_dismissed='').aggregate(
+                Count('player_dismissed'))
+            i.inn1 = c6['total_runs__sum']
+            i.inn2 = c7['total_runs__sum']
+            i.w1 = c8['player_dismissed__count']
+            i.w2 = c9['player_dismissed__count']
         return render(
             request,
             template_name=r"C:\MRNDsummer\Precourse\IPL\iplweb\templates\matches_display.html",
@@ -43,6 +55,7 @@ class Deliveries_view(LoginRequiredMixin,View):
             'noball_runs'), pn = Sum('penality_runs'))
         c5 = Deliveries.objects.filter(del_id_id=kwargs['mid'], inning=2).aggregate(wd=Sum('wide_runs'),bye=Sum('bye_runs'),lb=Sum('legbye_runs'), nb=Sum(
                 'noball_runs'), pn=Sum('penality_runs'))
+
         return render(
             request,
             template_name=r"C:\MRNDsummer\Precourse\IPL\iplweb\templates\match_summary.html",
@@ -167,6 +180,5 @@ class TeamPageView(View):
         )
 
 def home(request):
-    return render(request, r'C:\MRNDsummer\Precourse\IPL\iplweb\templates\Home.html', {})
-def teams(request):
-    return render(request, r'C:\MRNDsummer\Precourse\IPL\iplweb\templates\TeamsHome.html', {})
+    c = Matches.objects.filter(season = 2019).order_by('-match_id')
+    return render(request, r'C:\MRNDsummer\Precourse\IPL\iplweb\templates\Home.html', {"recentmatches":c,})

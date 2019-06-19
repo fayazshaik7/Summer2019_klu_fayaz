@@ -14,9 +14,149 @@
 
     </script>
     <style>
+
         .tab{
             width = 50%;
         }
+
+        .card{
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            margin: auto;
+            font-family: arial;
+            margin-bottom : 10px;
+            padding : 10px;
+        }
+        .team{
+            background-image: url('/static/logos/tLogo58x-sprite.png');
+            background-repeat: no-repeat;
+            border : 1px solid white;
+            width: 60px;
+            height: 62px;
+        }
+        .Mumbai{
+            background-position : -126px -126px;
+        }
+        .Bangalore{
+            background-position: -189px -63px;
+        }
+        .Rajasthan{
+            background-position: 0px -189px;
+        }
+        .Rising{
+
+        }
+        .Delhi{
+            background-position: -189px 0px;
+        }
+        .Kolkata{
+            background-position: -252px -63px;
+        }
+        .Punjab{
+            background-position: -63px -126px;
+        }
+        .Hyderabad{
+            background-position: -126px -189px;
+        }
+
+        .Chennai{
+            background-position: -63px 0px;
+        }
+        .vs{
+            text-align : 0px;
+        }
+        *{
+            box-sizing: border-box;
+        }
+        .vl{
+            width:1px;
+            background-color:#b5b8bc;
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:100px;
+            margin-top : 2%;
+            margin-bottom : 2%;
+            margin-bottom : 2%;
+       }
+       .vl2{
+            width:1px;
+            background-color:#b5b8bc;
+            position:absolute;
+            top:0;
+            bottom:0;
+            left:calc(50% + 100px);
+            margin-top : 2%;
+            margin-bottom : 2%;
+            margin-bottom : 2%;
+       }
+       .tmlogos{
+        max-width : 100px;
+       }
+       .res{
+            position:absolute;
+            top:30px;
+            bottom:10px;
+            left:110px;
+       }
+       .t1{
+            text-transform : uppercase;
+            font-weight : bold;
+            font-style: italic;
+       }
+       .t2{
+            margin-top : 30px;
+            text-transform : uppercase;
+            font-weight : bold;
+            font-style: italic;
+       }
+       .s1{
+            position:absolute;
+            top:24px;
+            bottom:10px;
+            left:50%;
+            font-weight : bold;
+            font-size : 22px;
+       }
+       .s2{
+            margin-top : 30px;
+            position:absolute;
+            top:49px;
+            bottom:10px;
+            left:50%;
+            font-weight : bold;
+            font-size : 22px;
+       }
+       .report{
+            position:absolute;
+            top:24px;
+            bottom:10px;
+            left:calc(50% + 130px);
+       }
+       .wn{
+            font-weight : bold;
+            color : blue;
+       }
+       .mom{
+            position:absolute;
+            top:50px;
+            bottom:10px;
+            left:calc(50% + 130px);
+       }
+       .mom1{
+            font-size : 14px;
+       }
+       .btn{
+            position:absolute;
+            top:80px;
+            bottom:10px;
+            left:calc(50% + 130px);
+            background-color : #EF4123;
+            color : white;
+            font-weight : 700;
+            font-size : 14px;
+       }
+
 
     </style>
 </head>
@@ -41,39 +181,53 @@
         <button class="button"><a href="http://127.0.0.1:8000/matches/2019/">2019</a></button>
     </div>
 
-    <a href=""><button class="button" style="background-color : #fffb89;">Previous Page</button></a>
     <a href="http://127.0.0.1:8000/pointsTable/{{season}}/"><button class="button" style="background-color : #fffb89; align-text : center;">Points table</button></a>
     <a href="http://127.0.0.1:8000/TeamStats/Mumbai Indians/2019"><button class="button" style="background-color : #fffb89;">Team Page</button></a>
-    <a href=""><button class="button" style="float : right; background-color : #fffb89;">Next Page</button></a>
-
-    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth tab">
-        <tr>
-            <th>Season</th>
-            <th>Team1</th>
-            <th>Team2</th>
-            <th>Venue</th>
-            <th>Toss_winner</th>
-            <th>Toss_decision</th>
-            <th>Winner</th>
-            <th>Player of the match</th>
-        </tr>
         {% for i in match %}
-            <tr>
-                <td>{{i.season}}</td>
-                <td>{{i.team1}}</td>
-                <td>{{i.team2}}</td>
-                <td>{{i.venue}}</td>
-                <td>{{i.toss_winner}}</td>
-                <td>{{i.toss_decision}}</td>
-                <td>{{i.winner}}</td>
-                <td>{{i.player_of_the_match}}</td>
-                <td><a href="http://127.0.0.1:8000/match_report/{{i.match_id}}/"><button class="button">View match</button></a></td>
+            <div class="card">
+                <div class="tmlogos">
+                    <div class="team {{i.team1}}"></div>
+                <div class="team {{i.team2}}"></div>
+                </div>
+
+                <div class="vl"></div>
+
+                <div class="res">
+                    <p class="t1">{{i.team1}}</p>
+                    <p class="t2">{{i.team2}}</p>
+                </div>
+                <div>
+                    <p class="s1"> {{i.inn1}}/{{i.w1}}</p>
+                    <p class="s2"> {{i.inn2}}/{{i.w2}}</p>
+                </div>
+                <div class="vl2"></div>
+                <div class="report">
+                    {% if i.winner == i.toss_winner %}
+                         {% if i.toss_decision == "field" %}
+                            <h2 class="wn">{{i.winner}} won by {{i.win_by_wickets}} wickets</h2>
+                         {% endif %}
+                         {% if i.toss_decision == "bat" %}
+                            <h2 class="wn">{{i.winner}} won by {{i.win_by_runs}} runs</h2>
+                        {% endif %}
+                    {% endif %}
+                    {% if i.winner != i.toss_winner %}
+                        {% if i.toss_decision != "field" %}
+                            <h2 class="wn">{{i.winner}} won by {{i.win_by_wickets}} wickets</h2>
+                        {% endif %}
+                        {% if i.toss_decision != "bat" %}
+                            <h2 class="wn">{{i.winner}} won by {{i.win_by_runs}} runs</h2>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="mom">
+                    <h2 class="mom1">Man of the match - {{i.player_of_the_match}}</h2>
+                </div>
+                <a href="http://127.0.0.1:8000/match_report/{{i.match_id}}/"><button class="button btn">MATCH CENTRE</button></a>
+            </div>
 
 
-            </tr>
         {% endfor %}
 
-    </table>
 
     <div class="pagination">
     <span class="step-links">
